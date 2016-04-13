@@ -58,6 +58,10 @@ base:
     - kube-controller-manager
     - kube-scheduler
     - supervisor
+{% if grains['cloud'] is defined and not grains.cloud in [ 'aws', 'gce', 'vagrant', 'vsphere', 'openstack' ] %}
+    - nginx
+{% endif %}
+    - cadvisor
     - kube-client-tools
     - kube-master-addons
     - kube-admission-controls
@@ -72,7 +76,7 @@ base:
     - logrotate
 {% endif %}
     - kube-addons
-{% if grains['cloud'] is defined and grains['cloud'] in [ 'vagrant', 'gce', 'aws', 'vsphere' ] %}
+{% if grains['cloud'] is defined and grains['cloud'] in [ 'vagrant', 'gce', 'aws', 'vsphere', 'openstack' ] %}
     - docker
     - kubelet
 {% endif %}
